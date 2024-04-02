@@ -15,28 +15,25 @@ public class Animated : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke(nameof(Animate), 0f);
+        StartCoroutine(Animate());
     }
 
     private void OnDisable()
     {
-        CancelInvoke();
+        StopAllCoroutines();
     }
 
-    private void Animate()
+    private IEnumerator Animate()
     {
-        frame++;
-
-        if (frame >= sprites.Length)
-        {
-            frame = 0;
-        }
-
-        if (frame >= 0 && frame < sprites.Length)
-        {
+        if (GameManager.Instance == null) yield break;
+        while (true){
+            frame++;
+            if (frame >= sprites.Length){
+                frame = 0;
+            }
             spriteRenderer.sprite = sprites[frame];
+            float delay = 1f / GameManager.Instance.gameSpeed;
+            yield return new WaitForSeconds(delay);
         }
-
-        Invoke(nameof(Animate), 1f / GameManager.Instance.gameSpeed);
     }
 }
