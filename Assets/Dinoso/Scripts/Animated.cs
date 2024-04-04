@@ -25,6 +25,7 @@ public class Animated : MonoBehaviour
 
     private IEnumerator Animate()
     {
+        yield return null;
         if (GameManager.Instance == null) yield break;
         while (true){
             frame++;
